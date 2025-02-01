@@ -15,7 +15,7 @@ const defaultIcon = L.icon({
   popupAnchor: [1, -34],
 });
 
-const MapView = ({ artisans }) => {
+const MapView = ({ artisans, currentPosition }) => {
   const mapRef = useRef();
 
   useEffect(() => {
@@ -28,8 +28,7 @@ const MapView = ({ artisans }) => {
   const defaultCenter =
     artisans.length > 0
       ? [artisans[0].latitude, artisans[0].longitude]
-      : [5.6037, -0.187];
-
+      : [currentPosition.latitude, currentPosition.longitude];
   return (
     <MapContainer
       center={defaultCenter}

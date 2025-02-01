@@ -10,6 +10,7 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPosition, setCurrentPosition] = useState(null);
 
   useEffect(() => {
     // Get user's location
@@ -17,6 +18,7 @@ const HomePage = () => {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const { latitude, longitude } = position.coords;
+          setCurrentPosition({ latitude, longitude });
           console.log("User Location:", latitude, longitude);
 
           // Fetch artisans near the user
@@ -70,7 +72,7 @@ const HomePage = () => {
     <div>
       <div className="flex">
         <section className="w-[50%]">
-          <MapView artisans={filteredUsers} />
+          {!loading && <MapView artisans={filteredUsers} currentPosition={currentPosition} />}
         </section>
         <section className="bg-primary w-[50%]">
           <div className="flex justify-center">
