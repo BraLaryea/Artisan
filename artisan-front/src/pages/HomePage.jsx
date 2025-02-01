@@ -60,7 +60,7 @@ const HomePage = () => {
     // Filter artisans based on the search term (profession or name)
     const filtered = users.filter(
       (user) =>
-        user.profession.toLowerCase().includes(e.target.value.toLowerCase()) ||
+        user.skill.toLowerCase().includes(e.target.value.toLowerCase()) ||
         user.name.toLowerCase().includes(e.target.value.toLowerCase())
     );
     setFilteredUsers(filtered);

@@ -28,7 +28,7 @@ const MapView = ({ artisans }) => {
   const defaultCenter =
     artisans.length > 0
       ? [artisans[0].latitude, artisans[0].longitude]
-      : [5.6037, -0.187]; // Center map on Accra, Ghana
+      : [5.6037, -0.187];
 
   return (
     <MapContainer
