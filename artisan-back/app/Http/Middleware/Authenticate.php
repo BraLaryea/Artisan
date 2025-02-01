@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Auth\AuthenticationException;
 
 /**
  * Class Authenticate.
@@ -17,8 +18,8 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        if (! $request->expectsJson()) {
-            return route('frontend.auth.login');
+        if (!$request->expectsJson()) {
+            abort(401, 'Unauthenticated');
         }
     }
 }

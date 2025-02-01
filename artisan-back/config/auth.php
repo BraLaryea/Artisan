@@ -2,6 +2,20 @@
 
 return [
 
+
+    'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+        'api' => [  // Add this block for API authentication
+            'driver' => 'token', // Use 'sanctum', 'passport', or 'jwt' based on your setup
+            'provider' => 'users',
+            'hash' => false, // Set to true if you want token hashing
+        ],
+    ],
+    
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults
