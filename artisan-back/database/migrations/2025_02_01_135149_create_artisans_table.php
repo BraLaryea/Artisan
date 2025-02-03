@@ -19,6 +19,7 @@ class CreateArtisansTable extends Migration
             $table->string('skill');
             $table->string('contact');
             $table->string('description');
+            $table->string('profile_image');
             $table->decimal('latitude', 10, 7);
             $table->decimal('longitude', 10, 7);
             $table->timestamps();

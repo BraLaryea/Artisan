@@ -17,5 +17,10 @@ class Artisan extends Model
         'longitude',
         'contact'
     ];
+
+    public function portfolioImages()
+    {
+        return $this->hasMany(PortfolioImage::class);
+    }
 }
 
