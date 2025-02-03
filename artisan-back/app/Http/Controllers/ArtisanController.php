@@ -78,7 +78,7 @@ class ArtisanController extends Controller
         // Handle profile picture upload
         $profilePath = null;
         if ($request->hasFile('profilePicture')) {
-            $profilePath = $request->file('profilePicture')->store('artisans/profiles', 'public');
+            $profilePath = 'http://localhost:8000/storage/' . $request->file('profilePicture')->store('artisans/profiles', 'public');
         }
 
         // Save artisan details
@@ -90,13 +90,13 @@ class ArtisanController extends Controller
             'location'      => $location,
             'latitude'      => $latitude,
             'longitude'     => $longitude,
-            'profile_picture' => $profilePath,
+            'profile_image' => $profilePath,
         ]);
 
         // Handle portfolio images upload and save them in the PortfolioImage table
         if ($request->hasFile('portfolio')) {
             foreach ($request->file('portfolio') as $file) {
-                $path = $file->store('artisans/portfolio', 'public');
+                $path = 'http://localhost:8000/storage/' . $file->store('artisans/portfolio', 'public');
 
                 // Create portfolio image record
                 PortfolioImage::create([

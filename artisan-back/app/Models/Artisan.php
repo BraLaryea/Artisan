@@ -14,6 +14,7 @@ class Artisan extends Model
         'skill',
         'latitude',
         'description',
+        'profile_image',
         'longitude',
         'contact'
     ];
