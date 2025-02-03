@@ -30,7 +30,7 @@ class ArtisanController extends Controller
             $request->longitude,
             $request->latitude
         ])
-            ->having("distance", "<", 100)
+            ->having("distance", "<", 10000)
             ->orderBy("distance")
             ->get();
 

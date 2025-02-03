@@ -14,6 +14,7 @@ class Artisan extends Model
         'skill',
         'latitude',
         'longitude',
+        'contact'
     ];
 }
 
