@@ -25,10 +25,7 @@ const MapView = ({ artisans, currentPosition }) => {
     }
   }, [artisans]); // Run effect when artisans change (e.g., after search)
 
-  const defaultCenter =
-    artisans.length > 0
-      ? [artisans[0].latitude, artisans[0].longitude]
-      : [currentPosition.latitude, currentPosition.longitude];
+  const defaultCenter = [currentPosition.latitude, currentPosition.longitude];
   return (
     <MapContainer
       center={defaultCenter}
@@ -53,6 +50,7 @@ const MapView = ({ artisans, currentPosition }) => {
           <Popup>
             <strong>{artisan.name}</strong> <br />
             {artisan.profession} <br />
+            Distance: {artisan.distance.toFixed(2)} km
             Distance: {artisan.distance.toFixed(2)} km
           </Popup>
         </Marker>

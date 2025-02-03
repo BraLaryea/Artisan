@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return response()->json(['message' => 'Welcome to ArtisanLink']);
+    return response()->json(['message' => 'Welcome to Landloard Artisan Hub']);
 });
 
 Route::prefix('auth')->group(function () {

@@ -17,15 +17,15 @@ class ArtisanSeeder extends Seeder
         Artisan::create([
             'name' => 'John Doe',
             'skill' => 'Electrician',
-            'conatct' => '0244812322',
+            'contact' => '0244812322',
             'latitude' => 5.6037,
-            'longitude' => -0.1870, // Example: Accra, Ghana
+            'longitude' => -0.1870,
         ]);
 
         Artisan::create([
             'name' => 'Jane Smith',
             'skill' => 'Plumber',
-            'conatct' => '0504812300',
+            'contact' => '0504812300',
             'latitude' => 5.6145,
             'longitude' => -0.2050,
         ]);

@@ -21,7 +21,7 @@ class ArtisanController extends Controller
             $query->where('skill', 'LIKE', '%' . $request->skill . '%');
         }
 
-        // Find artisans within a 10km radius
+        // Find artisans within a 10000km radius
         $artisans = $query->selectRaw("
             *, (6371 * acos(cos(radians(?)) * cos(radians(latitude)) 
             * cos(radians(longitude) - radians(?)) + sin(radians(?)) 

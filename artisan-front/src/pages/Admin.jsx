@@ -4,7 +4,7 @@ import MapView from "../components/MapView";
 import UserCard from "../components/UserCard";
 import Search from "../assets/Search.svg";
 
-const HomePage = () => {
+const Admin = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -143,4 +143,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default Admin;

@@ -41,7 +41,7 @@ class AuthController extends Controller
 
         if ($user && Hash::check($request->password, $user->password)) {
             // Generate the token
-            $token = $user->createToken('your-app-name')->plainTextToken;
+            $token = $user->createToken('landlord-artisan-hub')->plainTextToken;
 
             // Return token in response
             return response()->json(['token' => $token]);
