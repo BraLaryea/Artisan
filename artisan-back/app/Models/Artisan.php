@@ -13,6 +13,7 @@ class Artisan extends Model
         'name',
         'skill',
         'latitude',
+        'description',
         'longitude',
         'contact'
     ];

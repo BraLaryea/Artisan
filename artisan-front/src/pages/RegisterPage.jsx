@@ -62,7 +62,7 @@ const RegisterPage = () => {
             <div className="flex justify-center relative">
               <img src={ArtisanHub} alt="ArtisanHub Logo" className="w-[15%]" />
               <h1 className="text-6xl font-poppins-medium text-text">
-                Landloard ArtisanHub
+                Landlord ArtisanHub
               </h1>
             </div>
 

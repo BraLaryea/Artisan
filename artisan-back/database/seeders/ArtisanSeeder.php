@@ -18,6 +18,7 @@ class ArtisanSeeder extends Seeder
             'name' => 'John Doe',
             'skill' => 'Electrician',
             'contact' => '0244812322',
+            'description' => 'the game one',
             'latitude' => 5.6037,
             'longitude' => -0.1870,
         ]);
@@ -26,6 +27,7 @@ class ArtisanSeeder extends Seeder
             'name' => 'Jane Smith',
             'skill' => 'Plumber',
             'contact' => '0504812300',
+            'description' => 'the game one',
             'latitude' => 5.6145,
             'longitude' => -0.2050,
         ]);

@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return response()->json(['message' => 'Welcome to Landloard Artisan Hub']);
+    return response()->json(['message' => 'Welcome to Landlord Artisan Hub']);
 });
 
 Route::prefix('auth')->group(function () {
@@ -28,4 +28,5 @@ Route::prefix('auth')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('artisans', [ArtisanController::class, 'search']);
+    Route::post('artisans', [ArtisanController::class, 'store']);
 });

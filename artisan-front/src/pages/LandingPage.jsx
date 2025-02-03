@@ -6,7 +6,7 @@ import ArtisanHub from "../assets/ArtisanLink.svg";
 import Google from "../assets/Google.svg";
 
 const LandingPage = () => {
-  const navigate =useNavigate()
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -28,10 +28,13 @@ const LandingPage = () => {
     setError(null);
 
     try {
-      const response = await axios.post("http://localhost:8000/api/auth/login", {
-        email: formData.email,
-        password: formData.password,
-      });
+      const response = await axios.post(
+        "http://localhost:8000/api/auth/login",
+        {
+          email: formData.email,
+          password: formData.password,
+        }
+      );
 
       const { token } = response.data;
 
@@ -40,7 +43,6 @@ const LandingPage = () => {
 
       // Redirect user based on role (adjust as needed)
       navigate("/homepage");
-
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
     } finally {
@@ -57,7 +59,7 @@ const LandingPage = () => {
             <div className="flex justify-center relative">
               <img src={ArtisanHub} alt="" className="w-[15%]" />
               <h1 className="text-6xl font-poppins-medium text-text">
-                Landloard ArtisanHub
+                Landlord ArtisanHub
               </h1>
             </div>
 

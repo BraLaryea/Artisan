@@ -1,144 +1,247 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
-import MapView from "../components/MapView";
-import UserCard from "../components/UserCard";
-import Search from "../assets/Search.svg";
+import uploadIcon from "../assets/upload.png"; // Replace with actual upload icon
+import defaultProfile from "../assets/default-profile.png"; // Default profile picture
 
 const Admin = () => {
-  const [users, setUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    skill: "",
+    contact: "",
+    location: "",
+    profilePicture: null,
+    portfolio: [],
+  });
+
+  const [profilePreview, setProfilePreview] = useState(defaultProfile);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPosition, setCurrentPosition] = useState(null);
+  const [success, setSuccess] = useState(null);
 
-  useEffect(() => {
-    // Get user's location
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          // const { latitude, longitude } = position.coords;
-          const latitude = 6.6554;
-          const longitude = -0.7462;
-          setCurrentPosition({ latitude, longitude });
-          console.log("User Location:", latitude, longitude);
+  const locations = ["Abetifi", "Pepease", "Nkwatia", "Asakraka", "Mpraeso"];
+  const skills = [
+    "Carpenter",
+    "Fashion Desinger",
+    "Plumber",
+    "Electrician",
+    "Painter",
+  ];
 
-          // Fetch artisans near the user
-          fetchArtisans(latitude, longitude);
-        },
-        (err) => {
-          console.error("Error getting location:", err);
-          setError("Location access denied. Unable to fetch artisans.");
-          setLoading(false);
-        }
-      );
-    } else {
-      setError("Geolocation is not supported by your browser.");
-      setLoading(false);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleProfileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData({ ...formData, profilePicture: file });
+      setProfilePreview(URL.createObjectURL(file)); // Preview the image
     }
-  }, []);
+  };
 
-  const fetchArtisans = async (lat, lon) => {
+  const handleFileChange = (e) => {
+    setFormData({ ...formData, portfolio: Array.from(e.target.files) });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setLoading(true);
+    setError(null);
+    setSuccess(null);
+
+    const formDataToSend = new FormData();
+    Object.keys(formData).forEach((key) => {
+      if (key === "portfolio") {
+        formData[key].forEach((file) =>
+          formDataToSend.append("portfolio[]", file)
+        );
+      } else if (key === "profilePicture" && formData.profilePicture) {
+        formDataToSend.append("profilePicture", formData.profilePicture);
+      } else {
+        formDataToSend.append(key, formData[key]);
+      }
+    });
+    const token = localStorage.getItem("token"); // Retrieve token from local storage
+
     try {
-      const token = localStorage.getItem("token"); // Retrieve token from local storage
-      const response = await axios.get("http://localhost:8000/api/artisans", {
-        params: { latitude: lat, longitude: lon }, // Send user's location
+      await axios.post("http://localhost:8000/api/artisans", formDataToSend, {
+        headers: { "Content-Type": "multipart/form-data" },
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      setUsers(response.data || []); // Assuming API returns an `artisans` array
-      setFilteredUsers(response.data || []);
+      setSuccess("Artisan uploaded successfully!");
+      setFormData({
+        name: "",
+        description: "",
+        skill: "",
+        contact: "",
+        location: "",
+        profilePicture: null,
+        portfolio: [],
+      });
+      setProfilePreview(defaultProfile);
     } catch (err) {
-      console.error("Error fetching artisans:", err);
-      setError("Failed to fetch artisans. Please try again.");
+      setError("Upload failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-    // Filter artisans based on the search term (profession or name)
-    const filtered = users.filter(
-      (user) =>
-        user.skill.toLowerCase().includes(e.target.value.toLowerCase()) ||
-        user.name.toLowerCase().includes(e.target.value.toLowerCase())
-    );
-    setFilteredUsers(filtered);
-  };
-
   return (
-    <div>
-      <div className="flex">
-        <section className="w-[50%]">
-          {!loading && <MapView artisans={filteredUsers} currentPosition={currentPosition} />}
-        </section>
-        <section className="bg-primary w-[50%]">
-          <div className="flex justify-center">
-            <h1 className="text-4xl font-poppins-medium text-accent pt-[10%] pb-5 font-bold">
-              Artisans Around You
-            </h1>
-          </div>
-          <div className="flex h-13 w-[100%] bg-accent bg-opacity-[53%] items-center justify-center">
-            <div className="flex justify-center whitespace-nowrap p-4">
-              <button className="bg-primary px-[4%] mx-2 h-7 rounded-full">
-                All
-              </button>
-              <button className="bg-primary px-[4%] mx-2 h-7 rounded-full">
-                Carpenter
-              </button>
-              <button className="bg-primary px-[4%] mx-2 h-7 rounded-full">
-                Mechanic
-              </button>
-              <button className="bg-primary px-[4%] mx-2 h-7 rounded-full">
-                Tailor
-              </button>
-              <button className="bg-primary px-[4%] mx-2 h-7 rounded-full">
-                Shoe Cobbler
-              </button>
+    <div className="bg-primary min-h-screen flex items-center justify-center">
+      <section className="bg-secondary p-10 rounded-2xl shadow-2xl w-full max-w-2xl">
+        <h2 className="text-text text-4xl font-poppins-medium text-center mb-6">
+          Upload Artisan Info
+        </h2>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Profile Picture Upload */}
+          <div className="text-center">
+            <label className="block text-text font-poppins-light text-lg mb-2">
+              Profile Picture
+            </label>
+            <div className="flex justify-center">
+              <label className="cursor-pointer relative">
+                <img
+                  src={profilePreview}
+                  alt="Profile Preview"
+                  className="w-32 h-32 rounded-full border-4 border-text shadow-lg"
+                />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleProfileChange}
+                  className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                />
+              </label>
             </div>
           </div>
-          <div className="flex justify-center mt-[5%]">
-            <img
-              src={Search}
-              alt=""
-              width={40}
-              height={40}
-              className="p-0 m-0 relative left-[7%]"
-            />
+
+          {/* Name */}
+          <div>
+            <label className="text-text font-poppins-light text-lg mb-1 block">
+              Name
+            </label>
             <input
-              type="search"
-              className="bg-accent w-[80%] p-5 rounded-full m-0"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={handleSearch}
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full p-4 rounded-xl text-lg border-none outline-none"
+              placeholder="Enter Artisan's Name"
+              required
             />
           </div>
-          <div className="w-[100%] h-[40%] flex overflow-y-auto no-scrollbar flex-col items-center">
-            {loading ? (
-              <p className="text-white">Loading artisans...</p>
-            ) : error ? (
-              <p className="text-red-500">{error}</p>
-            ) : filteredUsers.length > 0 ? (
-              filteredUsers.map((user, index) => (
-                <UserCard
-                  key={index}
-                  name={user.name}
-                  image={user.image}
-                  distance={user.distance}
-                  profession={user.profession}
-                  rating={user.rating}
-                />
-              ))
-            ) : (
-              <p className="text-white">No artisans found.</p>
-            )}
+
+          {/* Description */}
+          <div>
+            <label className="text-text font-poppins-light text-lg mb-1 block">
+              Description
+            </label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              className="w-full p-4 rounded-xl text-lg border-none outline-none"
+              placeholder="Enter Artisan's Description"
+              rows="3"
+              required
+            />
           </div>
-        </section>
-      </div>
+
+          {/* Skill */}
+          <div>
+            <label className="text-text font-poppins-light text-lg mb-1 block">
+              Skill
+            </label>
+            <select
+              name="skill"
+              value={formData.skill}
+              onChange={handleChange}
+              className="w-full p-4 rounded-xl text-lg border-none outline-none"
+              required
+            >
+              <option value="">Select Skill</option>
+              {skills.map((skill) => (
+                <option key={skill} value={skill}>
+                  {skill}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Phone Number */}
+          <div>
+            <label className="text-text font-poppins-light text-lg mb-1 block">
+              Phone Number
+            </label>
+            <input
+              type="text"
+              name="contact"
+              value={formData.contact}
+              onChange={handleChange}
+              className="w-full p-4 rounded-xl text-lg border-none outline-none"
+              placeholder="Enter Phone Number"
+              required
+            />
+          </div>
+
+          {/* Location */}
+          <div>
+            <label className="text-text font-poppins-light text-lg mb-1 block">
+              Location
+            </label>
+            <select
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+              className="w-full p-4 rounded-xl text-lg border-none outline-none"
+              required
+            >
+              <option value="">Select Location</option>
+              {locations.map((loc) => (
+                <option key={loc} value={loc}>
+                  {loc}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Portfolio Upload */}
+          <div className="text-center">
+            <label className="text-text font-poppins-light text-lg mb-1 block">
+              Portfolio Images
+            </label>
+            <label className="cursor-pointer bg-text text-secondary p-3 rounded-xl inline-flex items-center space-x-3">
+              <img src={uploadIcon} alt="Upload" width={24} />
+              <span className="text-lg">Upload Images</span>
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+            </label>
+          </div>
+
+          {/* Error & Success Messages */}
+          {error && <p className="text-red-500 text-center">{error}</p>}
+          {success && <p className="text-green-500 text-center">{success}</p>}
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full bg-text text-secondary py-4 rounded-xl text-lg font-semibold tracking-wide"
+            disabled={loading}
+          >
+            {loading ? "Uploading..." : "Upload Artisan"}
+          </button>
+        </form>
+      </section>
     </div>
   );
 };
