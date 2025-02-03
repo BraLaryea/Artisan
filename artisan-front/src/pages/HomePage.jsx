@@ -127,7 +127,7 @@ const HomePage = () => {
                 <UserCard
                   key={index}
                   name={user.name}
-                  image={user.image}
+                  image={user.profile_image}
                   distance={user.distance}
                   profession={user.profession}
                   rating={user.rating}

@@ -13,7 +13,7 @@ const UserCard = ({ image, name, rating, profession, distance }) => {
           alt=""
           width={100}
           height={100}
-          className="rounded-full m-3"
+          className="rounded-full m-3 size-20"
         />
       </div>
       <div className="flex flex-col justify-center ml-10">
@@ -34,7 +34,7 @@ const UserCard = ({ image, name, rating, profession, distance }) => {
             className=" ml-3 mt-2 "
           />
           <p className="mt-[12.5px] text-text font-poppins-medium text-sm">
-            {rating}
+            {rating} 5
           </p>
         </div>
       </div>
