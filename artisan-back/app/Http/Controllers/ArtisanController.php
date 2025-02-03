@@ -52,8 +52,8 @@ class ArtisanController extends Controller
             'location'      => 'required|string',
             'latitude'      => 'nullable|numeric',
             'longitude'     => 'nullable|numeric',
-            'profilePicture' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'portfolio.*'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+            'profilePicture' => 'nullable|image|mimes:jpg,jpeg,png',
+            'portfolio.*'   => 'nullable|image|mimes:jpg,jpeg,png'
         ]);
 
         // Define the locations and their coordinates
