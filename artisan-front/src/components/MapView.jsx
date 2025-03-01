@@ -6,6 +6,7 @@ import L from "leaflet";
 // Fix default marker icon issue in Leaflet
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
+import { Link } from "react-router-dom";
 
 const defaultIcon = L.icon({
   iconUrl,
@@ -48,10 +49,14 @@ const MapView = ({ artisans, currentPosition }) => {
           icon={defaultIcon}
         >
           <Popup>
-            <strong>{artisan.name}</strong> <br />
-            {artisan.profession} <br />
-            Distance: {artisan.distance.toFixed(2)} km
-            Distance: {artisan.distance.toFixed(2)} km
+            <Link to={"/artisan/" + artisan.id}>
+              <div style={{ color: "black" }}>
+                <strong>{artisan.name}</strong> <br />
+                <br />
+                Profession: <b>{artisan.skill}</b> <br />
+                Distance from you: <b>{artisan.distance.toFixed(2)}km</b>
+              </div>
+            </Link>
           </Popup>
         </Marker>
       ))}

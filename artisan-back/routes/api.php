@@ -28,5 +28,6 @@ Route::prefix('auth')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('artisans', [ArtisanController::class, 'search']);
+    Route::get('artisans/{artisanId}', [ArtisanController::class, 'details']);
     Route::post('artisans', [ArtisanController::class, 'store']);
 });

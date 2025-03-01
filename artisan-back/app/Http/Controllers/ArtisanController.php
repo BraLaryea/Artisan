@@ -39,6 +39,17 @@ class ArtisanController extends Controller
         return response()->json($artisans);
     }
 
+    public function details(Request $request, $artisanId)
+    {
+        $artisan = Artisan::with('portfolioImages')->find($artisanId);
+
+        if (!$artisan) {
+            return response()->json(['error' => 'Artisan not found'], 404);
+        }
+
+        return response()->json($artisan);
+    }
+
     /**
      * Store a new artisan
      */
@@ -58,11 +69,12 @@ class ArtisanController extends Controller
 
         // Define the locations and their coordinates
         $locations = [
-            "Abetifi" => ['latitude' => 5.7357, 'longitude' => -0.6173],
-            "Pepease" => ['latitude' => 5.8791, 'longitude' => -0.6325],
-            "Nkwatia" => ['latitude' => 5.6823, 'longitude' => -0.6120],
-            "Asakraka" => ['latitude' => 5.8725, 'longitude' => -0.6331],
+            "Abetifi" => ['latitude' => 6.6713, 'longitude' => -0.7462],
+            "Pepease" => ['latitude' => 6.6927, 'longitude' => -0.7366],
+            "Nkwatia" => ['latitude' => 6.6285, 'longitude' => -0.7366],
+            "Asakraka" => ['latitude' => 6.6286, 'longitude' => -0.6892],
             "Mpraeso" => ['latitude' => 6.6059, 'longitude' => -0.7117],
+            "Bokuruwa" => ['latitude' => 6.6702, 'longitude' => -0.6945],
         ];
 
         // Assign latitude and longitude based on location

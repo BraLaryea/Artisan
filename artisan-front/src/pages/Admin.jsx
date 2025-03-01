@@ -19,7 +19,7 @@ const Admin = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  const locations = ["Abetifi", "Pepease", "Nkwatia", "Asakraka", "Mpraeso"];
+  const locations = ["Abetifi", "Pepease", "Nkwatia", "Asakraka", "Mpraeso", "Bokuruwa"];
   const skills = [
     "Carpenter",
     "Fashion Desinger",

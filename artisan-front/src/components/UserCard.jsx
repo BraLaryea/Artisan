@@ -3,10 +3,14 @@ import Carpenter from "../assets/Carpenter.svg";
 import image from "../assets/image copy.png";
 import location from "../assets/Location.svg";
 import Star from "../assets/Star.svg";
+import { Link } from "react-router-dom";
 
-const UserCard = ({ image, name, rating, profession, distance }) => {
+const UserCard = ({ image, name, rating, profession, distance, id }) => {
   return (
-    <div className="bg-accent w-[60%] rounded-xl mt-5 flex">
+    <Link
+      to={"/artisan/" + id}
+      className="bg-accent w-[60%] rounded-xl mt-5 flex"
+    >
       <div>
         <img
           src={image}
@@ -38,7 +42,7 @@ const UserCard = ({ image, name, rating, profession, distance }) => {
           </p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
