@@ -108,7 +108,7 @@ const ArtHomepage = () => {
               <div className="my-2 text-2xl">
                 {artisan.description || "No Description"}
               </div>
-              <div className="my-2 text-2xl">
+              <div className="my-2 text-xl">
                 {artisan.contact } | {artisan.location}
               </div>
               <div className="mt-2">
