@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import image from "../assets/image copy.png";
 import StarGold from "../assets/StarGold.svg";
 
 const ArtHomepage = () => {
@@ -9,6 +8,13 @@ const ArtHomepage = () => {
   const [artisan, setArtisan] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    if (artisanId) {
+      fetchArtisan();
+    }
+  }, [artisanId]);
 
   const fetchArtisan = async () => {
     setLoading(true);
@@ -22,7 +28,6 @@ const ArtHomepage = () => {
           },
         }
       );
-
       setArtisan(response.data);
     } catch (err) {
       console.error("Error fetching artisan:", err);
@@ -32,11 +37,39 @@ const ArtHomepage = () => {
     }
   };
 
+  const loadPaystackScript = () => {
+    const script = document.createElement("script");
+    script.src = "https://js.paystack.co/v1/inline.js";
+    script.async = true;
+    document.body.appendChild(script);
+  };
+
   useEffect(() => {
-    if (artisanId) {
-      fetchArtisan();
+    loadPaystackScript();
+  }, []);
+
+  const handlePay = () => {
+    if (!window.PaystackPop) {
+      console.error("Paystack SDK not loaded.");
+      return;
     }
-  }, [artisanId]);
+
+    const handler = window.PaystackPop.setup({
+      key: "pk_test_051ade181e81be046dc3b4b456dd90e18833da3d", // Replace with your Paystack public key
+      email: artisan.email || "customer@example.com",
+      amount: 10000, // Amount in kobo (10000 = 100 NGN)
+      currency: "GHS",
+      ref: "ART" + Math.floor(Math.random() * 1000000000 + 1), // Unique reference
+      callback: function (response) {
+        alert("Payment successful! Transaction ref: " + response.reference);
+      },
+      onClose: function () {
+        alert("Payment window closed.");
+      },
+    });
+
+    handler.openIframe();
+  };
 
   return (
     <div className="bg-primary h-screen">
@@ -76,7 +109,10 @@ const ArtHomepage = () => {
                 {artisan.description || "No Description"}
               </div>
               <div className="mt-2">
-                <button className="bg-text px-12 rounded-xl py-2 text-secondary font-semibold text-lg mr-5">
+                <button
+                  className="bg-text px-12 rounded-xl py-2 text-secondary font-semibold text-lg mr-5"
+                  onClick={handlePay}
+                >
                   Pay
                 </button>
               </div>
@@ -87,6 +123,7 @@ const ArtHomepage = () => {
               >
                 {artisan.portfolio_images?.map((image, index) => (
                   <img
+                    key={index}
                     src={image.image}
                     alt="portfolio"
                     style={{ width: "200px" }}
