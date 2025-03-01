@@ -105,11 +105,11 @@ const ArtHomepage = () => {
                   />
                 ))}
               </h3>
-              <div className="my-2 text-2xl">
+              <div className="my-2 text-2xl" style={{ color: "white" }}>
                 {artisan.description || "No Description"}
               </div>
-              <div className="my-2 text-xl">
-                {artisan.contact } | {artisan.location}
+              <div className="my-2 text-xl" style={{ color: "white" }}>
+                {artisan.contact} | {artisan.location}
               </div>
               <div className="mt-2">
                 <button
