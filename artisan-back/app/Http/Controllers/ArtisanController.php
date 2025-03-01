@@ -47,6 +47,30 @@ class ArtisanController extends Controller
             return response()->json(['error' => 'Artisan not found'], 404);
         }
 
+        // List of locations with coordinates
+        $locations = [
+            "Abetifi" => ['latitude' => 6.6713, 'longitude' => -0.7462],
+            "Pepease" => ['latitude' => 6.6927, 'longitude' => -0.7366],
+            "Nkwatia" => ['latitude' => 6.6285, 'longitude' => -0.7366],
+            "Asakraka" => ['latitude' => 6.6286, 'longitude' => -0.6892],
+            "Mpraeso" => ['latitude' => 6.6059, 'longitude' => -0.7117],
+            "Bokuruwa" => ['latitude' => 6.6702, 'longitude' => -0.6945],
+        ];
+
+        // Default location name if no match is found
+        $artisan->location = "Unknown";
+
+        // Check which location matches the artisan's lat/lng
+        foreach ($locations as $name => $coords) {
+            if (
+                number_format($artisan->latitude, 4) == number_format($coords['latitude'], 4) &&
+                number_format($artisan->longitude, 4) == number_format($coords['longitude'], 4)
+            ) {
+                $artisan->location = $name;
+                break;
+            }
+        }
+
         return response()->json($artisan);
     }
 

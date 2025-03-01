@@ -19,7 +19,14 @@ const Admin = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  const locations = ["Abetifi", "Pepease", "Nkwatia", "Asakraka", "Mpraeso", "Bokuruwa"];
+  const locations = [
+    "Abetifi",
+    "Pepease",
+    "Nkwatia",
+    "Asakraka",
+    "Mpraeso",
+    "Bokuruwa",
+  ];
   const skills = [
     "Carpenter",
     "Fashion Desinger",
@@ -67,12 +74,15 @@ const Admin = () => {
 
     try {
       await axios.post("http://localhost:8000/api/artisans", formDataToSend, {
-        headers: { "Content-Type": "multipart/form-data" },
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
       });
       setSuccess("Artisan uploaded successfully!");
+      setTimeout(() => {
+        window.location = "/homepage";
+      }, 200);
       setFormData({
         name: "",
         description: "",

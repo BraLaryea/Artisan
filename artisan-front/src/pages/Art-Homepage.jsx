@@ -108,6 +108,9 @@ const ArtHomepage = () => {
               <div className="my-2 text-2xl">
                 {artisan.description || "No Description"}
               </div>
+              <div className="my-2 text-2xl">
+                {artisan.contact } | {artisan.location}
+              </div>
               <div className="mt-2">
                 <button
                   className="bg-text px-12 rounded-xl py-2 text-secondary font-semibold text-lg mr-5"
