@@ -152,7 +152,7 @@ const HomePage = () => {
                   image={user.profile_image}
                   distance={user.distance}
                   profession={user.profession}
-                  rating={user.rating}
+                  rating={user.average_rating}
                   id={user.id}
                 />
               ))

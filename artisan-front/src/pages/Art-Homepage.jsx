@@ -120,19 +120,13 @@ const ArtHomepage = () => {
               </h1>
               <h3 className="text-text flex font-poppins-light text-xl">
                 {artisan.skill || "No Profession"}{" "}
-                {[...Array(5)].map((_, index) => (
-                  <span className="text-yellow-400 font-semibold ml-1">
-                    {" "}
-                    ★{" "}
-                  </span>
-                  // <img
-                  //   key={index}
-                  //   src={StarGold}
-                  //   alt=""
-                  //   width={40}
-                  //   className="-mr-3"
-                  // />
-                ))}
+                <span className="text-yellow-400 font-semibold flex gap-1 ml-2">
+                  {Array.from({ length: artisan.average_rating }).map(
+                    (_, i) => (
+                      <span key={i}>★</span>
+                    )
+                  )}
+                </span>
               </h3>
               <div className="my-2 text-2xl" style={{ color: "white" }}>
                 {artisan.description || "No Description"}
@@ -271,7 +265,6 @@ const ArtHomepage = () => {
                               </p>
                             </div>
                             <span className="text-yellow-400 font-semibold">
-                              {/* ★★★★★ */}
                               {Array.from({ length: review.rating }).map(
                                 (_, i) => (
                                   <span key={i}>★</span>

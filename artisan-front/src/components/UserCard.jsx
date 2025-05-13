@@ -30,16 +30,11 @@ const UserCard = ({ image, name, rating, profession, distance, id }) => {
           <p className="mt-[10.5px] -ml-2 text-text font-poppins-light text-sm">
             {distance.toFixed(2)} km
           </p>
-          <img
-            src={Star}
-            alt=""
-            width={30}
-            height={30}
-            className=" ml-3 mt-2 "
-          />
-          <p className="mt-[12.5px] text-text font-poppins-medium text-sm">
-            {rating} 5
-          </p>
+          <div className="flex items-center mt-1 ml-2">
+            {Array.from({ length: rating }).map((_, i) => (
+              <img src={Star} alt="" width={30} height={30} className="" />
+            ))}
+          </div>
         </div>
       </div>
     </Link>

@@ -34,9 +34,21 @@ class ArtisanController extends Controller
             $request->longitude,
             $request->latitude
         ])
+            ->with('portfolioImages', 'reviews')
             ->having("distance", "<", 10000)
             ->orderBy("distance")
             ->get();
+
+        foreach ($artisans as $artisan) {
+            foreach ($artisan->reviews as $review) {
+                $user = User::find($review->user_id);
+                $review->user = $user->name;
+            }
+
+            $totalRating = $artisan->reviews->sum('rating');
+            $reviewCount = $artisan->reviews->count();
+            $artisan->average_rating = $reviewCount > 0 ? round($totalRating / $reviewCount) : null;
+        }
 
         return response()->json($artisans);
     }
@@ -53,6 +65,10 @@ class ArtisanController extends Controller
             $user = User::find($review->user_id);
             $review->user = $user->name;
         }
+
+        $totalRating = $artisan->reviews->sum('rating');
+        $reviewCount = $artisan->reviews->count();
+        $artisan->average_rating = $reviewCount > 0 ? round($totalRating / $reviewCount) : null;
 
         // List of locations with coordinates
         $locations = [
