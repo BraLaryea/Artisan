@@ -26,7 +26,7 @@ class Artisan extends Model
 
     public function reviews()
     {
-        return $this->hasMany(Rating::class);
+        return $this->hasMany(Review::class);
     }
 }
 

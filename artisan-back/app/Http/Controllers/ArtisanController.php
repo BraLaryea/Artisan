@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Artisan;
 use App\Models\PortfolioImage;
-use App\Models\Rating;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -178,7 +178,7 @@ class ArtisanController extends Controller
             'comment' => 'nullable|string',
         ]);
 
-        $review = Rating::create([
+        $review = Review::create([
             'artisan_id' => $artisanId,
             'user_id' =>   $request->user()->id,
             'rating' => $request->rating,
