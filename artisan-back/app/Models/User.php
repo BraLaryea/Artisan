@@ -22,6 +22,6 @@ class User extends Authenticatable
 
     public function ratings()
     {
-        return $this->hasMany(Rating::class);
+        return $this->hasMany(Review::class);
     }
 }
