@@ -19,4 +19,9 @@ class User extends Authenticatable
         'password',
         'password_confirmation',
     ];
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
 }

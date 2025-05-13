@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Artisan;
 use App\Models\PortfolioImage;
+use App\Models\Rating;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -41,10 +43,15 @@ class ArtisanController extends Controller
 
     public function details(Request $request, $artisanId)
     {
-        $artisan = Artisan::with('portfolioImages')->find($artisanId);
+        $artisan = Artisan::with('portfolioImages', 'reviews')->find($artisanId);
 
         if (!$artisan) {
             return response()->json(['error' => 'Artisan not found'], 404);
+        }
+
+        foreach ($artisan->reviews as $review) {
+            $user = User::find($review->user_id);
+            $review->user = $user->name;
         }
 
         // List of locations with coordinates
@@ -145,6 +152,26 @@ class ArtisanController extends Controller
         return response()->json([
             'message' => 'Artisan created successfully!',
             'artisan' => $artisan
+        ], 201);
+    }
+
+    public function addReview(Request $request, $artisanId)
+    {
+        $request->validate([
+            'rating' => 'required|numeric|min:1|max:5',
+            'comment' => 'nullable|string',
+        ]);
+
+        $review = Rating::create([
+            'artisan_id' => $artisanId,
+            'user_id' =>   $request->user()->id,
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+        ]);
+
+        return response()->json([
+            'message' => 'Review added successfully!',
+            'review' => $review
         ], 201);
     }
 }

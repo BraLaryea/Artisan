@@ -23,5 +23,10 @@ class Artisan extends Model
     {
         return $this->hasMany(PortfolioImage::class);
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Rating::class);
+    }
 }
 

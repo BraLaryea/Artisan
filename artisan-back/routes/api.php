@@ -30,4 +30,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('artisans', [ArtisanController::class, 'search']);
     Route::get('artisans/{artisanId}', [ArtisanController::class, 'details']);
     Route::post('artisans', [ArtisanController::class, 'store']);
+    Route::post('artisans/{artisanId}/reviews', [ArtisanController::class, 'addReview']);
 });
